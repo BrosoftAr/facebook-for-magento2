@@ -297,13 +297,13 @@ class CategoryCollection
                 'filter' => $this->getCategoryProductFilter($category),
             ];
             $this->curl->post($url, $params);
-            $response = $this->curl->getBody();
+            $response = $this->curl->getBody(); 
         } catch (\Exception $e) {
             $this->fbeHelper->logException($e);
         }
-        $this->fbeHelper->log("response from fb: ".$response);
+        $this->fbeHelper->log("response from fb: " . $response);
         $response_obj = json_decode($response, true);
-        if (array_key_exists('id', $response_obj)) {
+        if (!is_null($response_obj) && array_key_exists('id', $response_obj)) {
             $set_id = $response_obj['id'];
             $this->saveFBProductSetID($category, $set_id);
             $this->fbeHelper->log(sprintf("saving category %s and set_id %s", $category->getName(), $set_id));
@@ -396,7 +396,7 @@ class CategoryCollection
             ];
             $this->curl->post($url, $params);
             $response = $this->curl->getBody();
-            $this->fbeHelper->log("update category api response from fb:". $response);
+            $this->fbeHelper->log("update category api response from fb:".  $response);
         } catch (\Exception $e) {
             $this->fbeHelper->logException($e);
         }
